@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Persons/Person';
+import person from './Persons/Person';
 
 
 class App extends Component{
@@ -9,7 +10,8 @@ class App extends Component{
       { name: "uzair", age: 28 },
       { name: "ali", age: 30 },
       { name: "khan", age: 60 },
-    ]
+    ],
+    showPersons: false,
   }
 
   switchNameHandler = (newName) => {
@@ -32,14 +34,46 @@ class App extends Component{
     })
   }
 
+  togglePersonHandler = () => {
+    const doesShow = this.state.showPersons;
+    alert(doesShow);
+    this.setState({showPersons: !doesShow});
+  }
+
+
   render(){
+    const style = {
+      backgroundColor: 'black',
+      color: 'white',
+      font: 'inherit',
+      border: '1px solid #eee',
+      padding: '8px',
+      cursor: 'pointer'
+    }
+
+    let persons = null;
+
+    if(this.state.showPersons){
+
+      persons = (
+        <div>
+          {this.state.Persons.map(person => {
+            return <Person
+              name={person.name}
+              age={person.age} />
+          })}
+        </div>
+      );
+    }
+
     return(
       <div className="App">
       <h1>I am react App</h1>
-      <button onClick={this.switchNameHandler.bind(this,'almeer')}>Change State</button>
-      <Person name={this.state.Persons[0].name} age={this.state.Persons[0].age} click={this.switchNameHandler.bind(this,'ayaat')}/>
-      <Person name={this.state.Persons[1].name} age={this.state.Persons[1].age} change={this.nameChangeHandler}>My Hobbies: Racing</Person>
-      <Person name={this.state.Persons[2].name} age={this.state.Persons[2].age} />
+      <button 
+        onClick={this.togglePersonHandler} 
+        style={style}>Change State
+      </button>
+      {persons}
     </div>
     )
   }
